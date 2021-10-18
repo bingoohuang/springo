@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -61,7 +61,8 @@ func TestGenerateForWeb(t *testing.T) {
 func TestIsRestService(t *testing.T) {
 	s := model.Struct{
 		DocLines: []string{
-			`//@EventService( self = "me")`},
+			`//@EventService( self = "me")`,
+		},
 	}
 	assert.True(t, IsEventService(s))
 }
@@ -69,7 +70,8 @@ func TestIsRestService(t *testing.T) {
 func TestGetEventServiceSelf(t *testing.T) {
 	s := model.Struct{
 		DocLines: []string{
-			`//@EventService( self = "me" )`},
+			`//@EventService( self = "me" )`,
+		},
 	}
 	assert.Equal(t, "me", GetEventServiceSelfName(s))
 }

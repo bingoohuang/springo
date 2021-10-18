@@ -3,7 +3,7 @@ package eventAnnotation
 import (
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
+	"github.com/bingoohuang/springo/generator/annotation"
 	"github.com/stretchr/testify/assert"
 )
 

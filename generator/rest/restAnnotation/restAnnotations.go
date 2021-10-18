@@ -1,6 +1,6 @@
 package restAnnotation
 
-import "github.com/MarcGrol/golangAnnotations/generator/annotation"
+import "github.com/bingoohuang/springo/generator/annotation"
 
 const (
 	TypeRestOperation   = "RestOperation"
@@ -33,7 +33,8 @@ func Get() []annotation.AnnotationDescriptor {
 			Name:       TypeRestOperation,
 			ParamNames: []string{ParamNoWrap, ParamAfter, ParamPath, ParamMethod, ParamTransactional, ParamForm, ParamFormat, ParamFilename, ParamOptional, ParamRoles, ParamProducesEvents},
 			Validator:  validateRestOperationAnnotation,
-		}}
+		},
+	}
 }
 
 func validateRestOperationAnnotation(annot annotation.Annotation) bool {

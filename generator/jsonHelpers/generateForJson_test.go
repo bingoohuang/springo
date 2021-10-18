@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -79,7 +79,6 @@ func TestGenerateForJson(t *testing.T) {
 
 	assert.Contains(t, string(data), `func (data *ColoredThing) UnmarshalJSON(b []byte) error {`)
 	assert.Contains(t, string(data), `func (data ColoredThing) MarshalJSON() ([]byte, error) {`)
-
 }
 
 func TestIsJsonEnum(t *testing.T) {

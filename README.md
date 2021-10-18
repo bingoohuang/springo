@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/MarcGrol/golangAnnotations.svg?branch=master)](https://travis-ci.com/MarcGrol/golangAnnotations)
-[![Coverage Status](https://coveralls.io/repos/github/MarcGrol/golangAnnotations/badge.svg)](https://coveralls.io/github/MarcGrol/golangAnnotations)
-[![BCH compliance](https://bettercodehub.com/edge/badge/MarcGrol/golangAnnotations?branch=master)](https://bettercodehub.com/)
+[![Build Status](https://travis-ci.org/bingoohuang/springo.svg?branch=master)](https://travis-ci.com/bingoohuang/springo)
+[![Coverage Status](https://coveralls.io/repos/github/bingoohuang/springo/badge.svg)](https://coveralls.io/github/bingoohuang/springo)
+[![BCH compliance](https://bettercodehub.com/edge/badge/bingoohuang/springo?branch=master)](https://bettercodehub.com/)
 # Golang annotations
 
-[Detailed explanation](https://github.com/MarcGrol/golangAnnotations/wiki)
+[Detailed explanation](https://github.com/bingoohuang/springo/wiki)
 
 ## Summary
 
@@ -33,7 +33,7 @@ The same "annotation"-approach is used to ease event-sourcing.
 
 ## Getting the software
 
-    $ go get -u -t -v github.com/MarcGrol/golangAnnotations/...
+    $ go get -u -t -v github.com/bingoohuang/springo/...
 
 ## Testing and installing
 
@@ -78,7 +78,7 @@ A regular golang struct definition with our own "RestService" and "RestOperation
 
 Observe that ./examples/rest/gen_tourService.go have been generated.
 
-[Example](https://github.com/MarcGrol/golangAnnotations/wiki/example-of-generated-code) of the generated http handler.
+[Example](https://github.com/bingoohuang/springo/wiki/example-of-generated-code) of the generated http handler.
 
 ## How to use event-sourcing related annotations?
 
@@ -102,7 +102,7 @@ example:
 
 So can can use the regular toolchain to trigger code-genaration
 
-    $ cd ${GOPATH/src/github.com/MarcGrol/golangAnnotations
+    $ cd ${GOPATH/src/github.com/bingoohuang/springo
     $ go generate ./...
     // go imports will fix all the imports
     $ for i in `find . -name "*.go"`; do goimports -w -local github.com/ ${i}; done

@@ -3,12 +3,11 @@ package parser
 import (
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestParseStructsInFile(t *testing.T) {
-
 	parsedSources, err := parseSourceFile("structs/example.go")
 	assert.Equal(t, nil, err)
 	assert.Equal(t, 2, len(parsedSources.Structs))
@@ -95,7 +94,7 @@ func TestParseStructsInDir(t *testing.T) {
 }
 
 func assertStruct(t *testing.T, expected model.Struct, actual model.Struct) {
-	//t.Logf("expected: %+v, actual: %+v", expected, actual)
+	// t.Logf("expected: %+v, actual: %+v", expected, actual)
 	assertStringSlice(t, expected.DocLines, actual.DocLines)
 	assert.Equal(t, expected.PackageName, actual.PackageName)
 	assert.Equal(t, expected.Name, actual.Name)
@@ -103,7 +102,7 @@ func assertStruct(t *testing.T, expected model.Struct, actual model.Struct) {
 }
 
 func assertField(t *testing.T, expected model.Field, actual model.Field) {
-	//t.Logf("expected: %+v, actual: %+v", expected, actual)
+	// t.Logf("expected: %+v, actual: %+v", expected, actual)
 	assertStringSlice(t, expected.DocLines, actual.DocLines)
 
 	assert.Equal(t, expected.PackageName, actual.PackageName)
@@ -117,7 +116,7 @@ func assertField(t *testing.T, expected model.Field, actual model.Field) {
 }
 
 func assertStringSlice(t *testing.T, expected []string, actual []string) {
-	//t.Logf("expected: %+v, actual: %+v", expected, actual)
+	// t.Logf("expected: %+v, actual: %+v", expected, actual)
 	actualHas := false
 	if actual != nil && len(actual) > 0 {
 		actualHas = true

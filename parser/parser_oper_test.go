@@ -3,8 +3,8 @@ package parser
 import (
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -65,12 +65,16 @@ func TestStructOperationsInDir(t *testing.T) {
 		assertField(t, model.Field{Name: "s", TypeName: "Service"}, *o.RelatedStruct)
 
 		assert.Equal(t, 1, len(o.InputArgs))
-		assertField(t, model.Field{Name: "in", TypeName: "structs.YetAnotherStruct",
-			PackageName: "github.com/MarcGrol/golangAnnotations/parser/structs"}, o.InputArgs[0])
+		assertField(t, model.Field{
+			Name: "in", TypeName: "structs.YetAnotherStruct",
+			PackageName: "github.com/bingoohuang/springo/parser/structs",
+		}, o.InputArgs[0])
 
 		assert.Equal(t, 2, len(o.OutputArgs))
-		assertField(t, model.Field{TypeName: "*structs.YetAnotherStruct",
-			PackageName: "github.com/MarcGrol/golangAnnotations/parser/structs"}, o.OutputArgs[0])
+		assertField(t, model.Field{
+			TypeName:    "*structs.YetAnotherStruct",
+			PackageName: "github.com/bingoohuang/springo/parser/structs",
+		}, o.OutputArgs[0])
 		assertField(t, model.Field{TypeName: "error"}, o.OutputArgs[1])
 	}
 	{
@@ -85,8 +89,10 @@ func TestStructOperationsInDir(t *testing.T) {
 		assert.Equal(t, "context.Context", o.InputArgs[0].TypeName)
 
 		assert.Equal(t, 2, len(o.OutputArgs))
-		assertField(t, model.Field{TypeName: "[]*structs.YetAnotherStruct",
-			PackageName: "github.com/MarcGrol/golangAnnotations/parser/structs"}, o.OutputArgs[0])
+		assertField(t, model.Field{
+			TypeName:    "[]*structs.YetAnotherStruct",
+			PackageName: "github.com/bingoohuang/springo/parser/structs",
+		}, o.OutputArgs[0])
 		assertField(t, model.Field{TypeName: "error"}, o.OutputArgs[1])
 	}
 }

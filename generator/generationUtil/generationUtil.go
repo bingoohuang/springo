@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/model"
 )
 
 func GetPackageNameForStructs(structs []model.Struct) (string, error) {
@@ -118,7 +118,7 @@ func Generate(twd Info) error {
 }
 
 func createFile(filename string) (*os.File, error) {
-	err := os.MkdirAll(filepath.Dir(filename), 0777)
+	err := os.MkdirAll(filepath.Dir(filename), 0o777)
 	if err != nil {
 		return nil, err
 	}

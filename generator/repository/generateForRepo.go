@@ -7,11 +7,11 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/generator/repository/repositoryAnnotation"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/generator/annotation"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/generator/repository/repositoryAnnotation"
+	"github.com/bingoohuang/springo/model"
 )
 
 type Generator struct {

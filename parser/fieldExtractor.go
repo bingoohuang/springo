@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/model"
 )
 
 func extractFieldList(fieldList *ast.FieldList, imports map[string]string) []model.Field {
@@ -53,7 +53,6 @@ func extractField(field *ast.Field, imports map[string]string) *model.Field {
 }
 
 func processExpression(expr ast.Expr, imports map[string]string) *Expression {
-
 	if mExpr := processEllipsis(expr, imports); mExpr != nil {
 		return mExpr
 	}

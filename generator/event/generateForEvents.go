@@ -7,11 +7,11 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
-	"github.com/MarcGrol/golangAnnotations/generator/event/eventAnnotation"
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/generator/annotation"
+	"github.com/bingoohuang/springo/generator/event/eventAnnotation"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 )
 
 type eventMap struct {
@@ -113,7 +113,6 @@ func generate(inputDir string, structs []model.Struct) error {
 }
 
 func generateAggregates(ctx generateContext) error {
-
 	aggregates := getAggregates(ctx.structs)
 	if len(aggregates) == 0 {
 		return nil
@@ -170,7 +169,6 @@ func getAggregates(structs []model.Struct) map[string]eventMap {
 }
 
 func generateWrappers(ctx generateContext) error {
-
 	if !containsAny(ctx.structs, IsEvent) {
 		return nil
 	}
@@ -194,7 +192,6 @@ func generateWrappers(ctx generateContext) error {
 }
 
 func generateAnonymized(ctx generateContext) error {
-
 	if !containsAny(ctx.structs, IsSensitiveEventOrEventPart) {
 		return nil
 	}
@@ -227,7 +224,6 @@ func containsAny(structs []model.Struct, predicate func(_ model.Struct) bool) bo
 }
 
 func generateEventStore(ctx generateContext) error {
-
 	if !containsAny(ctx.structs, IsPersistentEvent) {
 		return nil
 	}
@@ -251,7 +247,6 @@ func generateEventStore(ctx generateContext) error {
 }
 
 func generateEventPublisher(ctx generateContext) error {
-
 	if !containsAny(ctx.structs, isTransient) {
 		return nil
 	}
@@ -275,7 +270,6 @@ func generateEventPublisher(ctx generateContext) error {
 }
 
 func generateWrappersTest(ctx generateContext) error {
-
 	if !containsAny(ctx.structs, IsEvent) {
 		return nil
 	}
@@ -299,7 +293,6 @@ func generateWrappersTest(ctx generateContext) error {
 }
 
 func generateHandlerInterface(ctx generateContext) error {
-
 	if !containsAny(ctx.structs, IsEvent) {
 		return nil
 	}
@@ -459,7 +452,6 @@ func hasValueForField(field model.Field) bool {
 }
 
 func valueForField(field model.Field) string {
-
 	if field.IsInt() || field.IsIntSlice() {
 		return valueForIntField(field)
 	}

@@ -1,81 +1,102 @@
-GO := $(shell which go)
-GO_VERSION := $(shell $(GO) version)
- 
-GOLANG_ANNOT_ROOT := $(shell echo "${GOPATH}/src/github.com/MarcGrol/golangAnnotations")
+.PHONY: default test install
+all: default test install
 
-all: gen test install
+app=$(notdir $(shell pwd))
+appVersion := 1.0.0
 
-help:
-	@echo "\tdeps: installs all dependencies"
-	@echo "\tgen: generates boilerplate code"
-	@echo "\ttest: Run all tests"
+goVersion := $(shell go version | sed 's/go version //'|sed 's/ /_/')
+# `brew install coreutils` for gdate
+buildTime := $(shell if hash gdate 2>/dev/null; then gdate --rfc-3339=seconds | sed 's/ /T/'; else date --rfc-3339=seconds | sed 's/ /T/'; fi)
+# https://git-scm.com/docs/git-rev-list#Documentation/git-rev-list.txt-emaIem
+gitCommit := $(shell git rev-list --oneline --format=format:'%h@%aI' --max-count=1 `git rev-parse HEAD` | tail -1)
+#gitCommit := $(shell git rev-list -1 HEAD)
+# https://stackoverflow.com/a/47510909
+pkg := github.com/bingoohuang/gg/pkg/v
 
-deps:
-	@echo "---------------------------"
-	@echo "Performing dependency check"
-	@echo "---------------------------"
-	go get -u golang.org/x/tools/cmd/goimports
-	go get -u -t ./...                                  # get the application with all its deps
+extldflags := -extldflags -static
+# https://ms2008.github.io/2018/10/08/golang-build-version/
+# https://github.com/kubermatic/kubeone/blob/master/Makefile
+flags1 = "-s -w -X $(pkg).buildTime=$(buildTime) -X $(pkg).appVersion=$(appVersion) -X $(pkg).gitCommit=$(gitCommit) -X $(pkg).goVersion=$(goVersion)"
+flags2 = "$(extldflags) -s -w -X $(pkg).buildTime=$(buildTime) -X $(pkg).appVersion=$(appVersion) -X $(pkg).gitCommit=$(gitCommit) -X $(pkg).goVersion=$(goVersion)"
+gobin := $(shell go env GOBIN)
+# try $GOPATN/bin if $gobin is empty
+gobin := $(if $(gobin),$(gobin),$(shell go env GOPATH)/bin)
 
-generate:
-	@echo "----------------------"
-	@echo "Generating source-code"
-	@echo "----------------------"
-	$(GO) generate ./...
+tool:
+	go get github.com/securego/gosec/cmd/gosec
 
-imports:
-	@echo "------------------"
-	@echo "Optimizing imports"
-	@echo "------------------"
-	find . -name '*.go' -exec goimports -l -w -local github.com/ {} \;
+sec:
+	@gosec ./...
+	@echo "[OK] Go security check was completed!"
 
-format: imports
-	@echo "----------------------"
-	@echo "Formatting source-code"
-	@echo "----------------------"
-	find . -name '*.go' -exec gofmt -l -s -w {} \;
+init:
+	export GOPROXY=https://goproxy.cn
 
-gen: generate imports format
+lint-all:
+	golangci-lint run --enable-all
 
-check:
-	@echo "---------------------"
-	@echo "Perform static analysis"
-	@echo "---------------------"
-	$(GO) vet ./...
+lint:
+	golangci-lint run ./...
 
-test: clean check
-	@echo "---------------------"
-	@echo "Running backend tests"
-	@echo "---------------------"
-	$(GO) test ./...                        # run unit tests
-	make format
+fmt:
+	gofumpt -l -w .
+	gofmt -s -w .
+	go mod tidy
+	go fmt ./...
+	revive .
+	goimports -w .
+	gci -w -local github.com/daixiang0/gci
 
-citest:
-	@echo "---------------------"
-	@echo "Running backend tests"
-	@echo "---------------------"
-	$(GO) get -u golang.org/x/tools/cmd/goimports
-	$(GO) generate -tags ci  ./...
-	make imports
-	$(GO) test -tags ci ./...                        # run unit tests
-	make format
+install: init
+	go install -trimpath -ldflags=${flags2}  ./...
+	upx ${gobin}/${app}
 
-coverage:
-	@echo "----------------"
-	@echo "Running coverage"
-	@echo "----------------"
-	$(GOLANG_ANNOT_ROOT)/scripts/coverage.sh --html
+linux: init
+	GOOS=linux GOARCH=amd64 go install -trimpath -ldflags=${flags1}  ./...
+	upx ${gobin}/linux_amd64/${app}
+linux-arm64: init
+	GOOS=linux GOARCH=arm64 go install -trimpath -ldflags=${flags1}  ./...
+	upx ${gobin}/linux_arm64/${app}
+
+upx:
+	ls -lh ${gobin}/${app}
+	upx ${gobin}/${app}
+	ls -lh ${gobin}/${app}
+	ls -lh ${gobin}/linux_amd64/${app}
+	upx ${gobin}/linux_amd64/${app}
+	ls -lh ${gobin}/linux_amd64/${app}
+
+test: init
+	#go test -v ./...
+	go test -v -race ./...
+
+bench: init
+	#go test -bench . ./...
+	go test -tags bench -benchmem -bench . ./...
 
 clean:
-	find . -name 'gen_*.go' -exec rm -rfv {} +
-	rm -rf ./examples/rest/restTestLog/ ./generator/rest/testData/ ./generator/event/testDataStore/
-	$(GO) clean ./...
+	rm coverage.out
 
-install: clean
-	@echo "----------------------------"
-	@echo "Installing for $(GO_VERSION)"
-	@echo "----------------------------"
-	$(GO) install ./...
+cover:
+	go test -v -race -coverpkg=./... -coverprofile=coverage.out ./...
 
-.PHONY:
-	help deps gen check test citest coverage install clean all
+coverview:
+	go tool cover -html=coverage.out
+
+# https://hub.docker.com/_/golang
+# docker run --rm -v "$PWD":/usr/src/myapp -v "$HOME/dockergo":/go -w /usr/src/myapp golang make docker
+# docker run --rm -it -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang bash
+# 静态连接 glibc
+docker:
+	mkdir -p ~/dockergo
+	docker run --rm -v "$$PWD":/usr/src/myapp -v "$$HOME/dockergo":/go -w /usr/src/myapp golang make dockerinstall
+	#upx ~/dockergo/bin/${app}
+	gzip -f ~/dockergo/bin/${app}
+
+dockerinstall:
+	go install -v -x -a -ldflags=${flags} ./...
+
+targz:
+	find . -name ".DS_Store" -delete
+	find . -type f -name '\.*' -print
+	cd .. && rm -f ${app}.tar.gz && tar czvf ${app}.tar.gz --exclude .git --exclude .idea ${app}

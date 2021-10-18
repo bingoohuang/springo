@@ -3,8 +3,8 @@ package parser
 import (
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 

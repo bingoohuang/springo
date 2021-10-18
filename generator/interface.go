@@ -1,8 +1,8 @@
 package generator
 
 import (
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator/annotation"
+	"github.com/bingoohuang/springo/model"
 )
 
 const (

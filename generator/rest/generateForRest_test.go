@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -78,13 +78,13 @@ func TestGenerateForWeb(t *testing.T) {
 			assert.Contains(t, string(data), "func doitTestHelper")
 		}
 	}
-
 }
 
 func TestIsRestService(t *testing.T) {
 	s := model.Struct{
 		DocLines: []string{
-			`//@RestService( path = "/api")`},
+			`//@RestService( path = "/api")`,
+		},
 	}
 	assert.True(t, IsRestService(s))
 }
@@ -92,7 +92,8 @@ func TestIsRestService(t *testing.T) {
 func TestGetRestServicePath(t *testing.T) {
 	s := model.Struct{
 		DocLines: []string{
-			`//@RestService( path = "/api")`},
+			`//@RestService( path = "/api")`,
+		},
 	}
 	assert.Equal(t, "/api", GetRestServicePath(s))
 }

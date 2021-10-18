@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
-	"github.com/MarcGrol/golangAnnotations/generator/event/eventAnnotation"
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/generator/annotation"
+	"github.com/bingoohuang/springo/generator/event/eventAnnotation"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 )
 
 type Generator struct {
@@ -23,13 +23,12 @@ func (eg *Generator) GetAnnotations() []annotation.AnnotationDescriptor {
 }
 
 func (eg *Generator) Generate(inputDir string, parsedSources model.ParsedSources) error {
-
 	marshalled, err := json.MarshalIndent(parsedSources, "", "\t")
 	if err != nil {
 		panic(err)
 	}
 	targetFilename := generationUtil.Prefixed(inputDir + "/" + "ast.json")
-	err = ioutil.WriteFile(targetFilename, marshalled, 0644)
+	err = ioutil.WriteFile(targetFilename, marshalled, 0o644)
 	if err != nil {
 		panic(err)
 	}

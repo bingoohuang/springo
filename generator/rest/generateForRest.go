@@ -8,11 +8,11 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/generator/rest/restAnnotation"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/generator/annotation"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/generator/rest/restAnnotation"
+	"github.com/bingoohuang/springo/model"
 )
 
 type Generator struct {
@@ -37,7 +37,6 @@ type generateContext struct {
 }
 
 func generate(inputDir string, structs []model.Struct) error {
-
 	packageName, err := generationUtil.GetPackageNameForStructs(structs)
 	if packageName == "" || err != nil {
 		return err
@@ -614,7 +613,7 @@ func IsMetaCallback(o model.Operation) bool {
 }
 
 func GetMetaArg(o model.Operation) *model.Field {
-	var count = 0
+	count := 0
 	for _, arg := range o.OutputArgs {
 		if !IsErrorArg(arg) {
 			count++

@@ -2,8 +2,10 @@ package interfaces
 
 import "context"
 
-type Req struct{}
-type Resp struct{}
+type (
+	Req  struct{}
+	Resp struct{}
+)
 
 // docline for interface Doer
 type Doer interface {

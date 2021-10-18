@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -49,7 +49,7 @@ func TestGenerateForEvents(t *testing.T) {
 	assert.Contains(t, string(data), "func ApplyTestEvent(c context.Context, rc request.Context, envlp envelope.Envelope, aggregateRoot TestAggregate) error {")
 	assert.Contains(t, string(data), "func ApplyTestEvents(c context.Context, rc request.Context, envelopes []envelope.Envelope, aggregateRoot TestAggregate) error {")
 	assert.Contains(t, string(data), "func UnWrapTestEvent(envlp *envelope.Envelope) (envelope.Event, error) {")
-	//assert.Contains(t, string(data), "func AnonymizeTestEnvelopes(envelopes []envelope.Envelope) ([]envelope.Envelope, error) {")
+	// assert.Contains(t, string(data), "func AnonymizeTestEnvelopes(envelopes []envelope.Envelope) ([]envelope.Envelope, error) {")
 
 	// check that generate code has 4 helper functions for MyStruct
 	data, err = ioutil.ReadFile(generationUtil.Prefixed("./testData/wrappers.go"))
@@ -72,7 +72,8 @@ func TestGenerateForEvents(t *testing.T) {
 func TestIsEvent(t *testing.T) {
 	s := model.Struct{
 		DocLines: []string{
-			`//@Event( aggregate = "person")`},
+			`//@Event( aggregate = "person")`,
+		},
 	}
 	assert.True(t, IsEvent(s))
 }
@@ -80,7 +81,8 @@ func TestIsEvent(t *testing.T) {
 func TestGetAggregateName(t *testing.T) {
 	s := model.Struct{
 		DocLines: []string{
-			`//@Event( aggregate = "person")`},
+			`//@Event( aggregate = "person")`,
+		},
 	}
 	assert.Equal(t, "person", GetAggregateName(s))
 }

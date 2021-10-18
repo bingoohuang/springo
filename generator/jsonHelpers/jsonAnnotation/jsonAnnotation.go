@@ -1,6 +1,6 @@
 package jsonAnnotation
 
-import "github.com/MarcGrol/golangAnnotations/generator/annotation"
+import "github.com/bingoohuang/springo/generator/annotation"
 
 const (
 	TypeEnum      = "JsonEnum"
@@ -23,7 +23,8 @@ func Get() []annotation.AnnotationDescriptor {
 			Name:       TypeStruct,
 			ParamNames: []string{},
 			Validator:  validateStructAnnotation,
-		}}
+		},
+	}
 }
 
 func validateEnumAnnotation(annot annotation.Annotation) bool {

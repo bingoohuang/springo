@@ -8,11 +8,11 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/MarcGrol/golangAnnotations/generator"
-	"github.com/MarcGrol/golangAnnotations/generator/annotation"
-	"github.com/MarcGrol/golangAnnotations/generator/eventService/eventServiceAnnotation"
-	"github.com/MarcGrol/golangAnnotations/generator/generationUtil"
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/generator"
+	"github.com/bingoohuang/springo/generator/annotation"
+	"github.com/bingoohuang/springo/generator/eventService/eventServiceAnnotation"
+	"github.com/bingoohuang/springo/generator/generationUtil"
+	"github.com/bingoohuang/springo/model"
 )
 
 type Generator struct {
@@ -36,7 +36,6 @@ type templateData struct {
 }
 
 func generate(inputDir string, structs []model.Struct) error {
-
 	packageName, err := generationUtil.GetPackageNameForStructs(structs)
 	if packageName == "" || err != nil {
 		return err
@@ -300,6 +299,7 @@ func GetInputArgPackage(o model.Operation) string {
 	}
 	return ""
 }
+
 func isContextArg(f model.Field) bool {
 	return f.TypeName == "context.Context"
 }

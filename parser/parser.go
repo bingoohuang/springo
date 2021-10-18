@@ -11,7 +11,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/model"
 )
 
 var debugAstOfSources = false
@@ -158,7 +158,6 @@ func embedOperationsInStructs(visitor *astVisitor) {
 			}
 		}
 	}
-
 }
 
 func embedTypedefDocLinesInEnum(visitor *astVisitor) {
@@ -173,8 +172,8 @@ func embedTypedefDocLinesInEnum(visitor *astVisitor) {
 }
 
 func parseDir(dirName string, includeRegex string, excludeRegex string) (map[string]*ast.Package, error) {
-	var includePattern = regexp.MustCompile(includeRegex)
-	var excludePattern = regexp.MustCompile(excludeRegex)
+	includePattern := regexp.MustCompile(includeRegex)
+	excludePattern := regexp.MustCompile(excludeRegex)
 
 	fileSet := token.NewFileSet()
 	packageMap, err := parser.ParseDir(fileSet, dirName, func(fi os.FileInfo) bool {

@@ -6,7 +6,7 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/MarcGrol/golangAnnotations/model"
+	"github.com/bingoohuang/springo/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -33,7 +33,6 @@ func TestGetPackageNameNoStructs(t *testing.T) {
 	name, err := GetPackageNameForStructs(s)
 	assert.Empty(t, name)
 	assert.NoError(t, err)
-
 }
 
 func TestDetermineTargetPathEmptyInput(t *testing.T) {
@@ -63,7 +62,7 @@ func CommentedPackageName(s model.Struct) string {
 }
 
 func TestGenerateFileFromTemplate(t *testing.T) {
-	var fm = template.FuncMap{
+	fm := template.FuncMap{
 		"CommentedPackageName": CommentedPackageName,
 	}
 
